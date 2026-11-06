@@ -8,7 +8,7 @@ React Native · Expo SDK 58 · TypeScript (strict) · Zustand · Expo Router · 
 
 | 📱 Android app | 🌐 Web (any phone or laptop) |
 |---|---|
-| <img src="docs/apk-qr.png" width="160" alt="QR code to download the Driftcart APK"><br>**[Download the APK](https://expo.dev/artifacts/eas/QQuUywqx3d038Qeewh1eKWqg0QYqFSQrstYyyeFx3YI.apk)**<br>Scan with your phone camera, download, then tap *Install* (allow "install from this source" once). | **[driftcart-five.vercel.app](https://driftcart-five.vercel.app)**<br>Nothing to install. Same app, built from the same code. |
+| <img src="docs/apk-qr.png" width="160" alt="QR code to download the Driftcart APK"><br>**[Download the APK](https://expo.dev/artifacts/eas/25qHTbKTUIRBzrKXVUcHcjHOVL03IMSZDgMM8nXty3A.apk)**<br>Scan with your phone camera, download, then tap *Install* (allow "install from this source" once). | **[driftcart-five.vercel.app](https://driftcart-five.vercel.app)**<br>Nothing to install. Same app, built from the same code. |
 
 The APK is a standalone release build (Expo EAS, `preview` profile). Android only; iPhone users can use the web link.
 
