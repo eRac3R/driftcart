@@ -1,56 +1,102 @@
-# Welcome to your Expo app 👋
+# Driftcart
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**A quick-commerce cart that keeps working when your network doesn't, and never charges you a price you didn't see.**
 
-## Get started
+React Native · Expo SDK 58 · TypeScript (strict) · Zustand · Expo Router · Jest + React Native Testing Library · GitHub Actions
 
-1. Install dependencies
+| Shop | Offline, order queued | Back online: what changed | Placed, once |
+|---|---|---|---|
+| ![](docs/0-home.png) | ![](docs/2-queued.png) | ![](docs/3-review.png) | ![](docs/4-placed.png) |
 
-   ```bash
-   npm install
-   ```
+## The problem
 
-2. Start the app
+You add milk, coffee and paneer, then walk into a lift and lose signal. You press "Place order" anyway. While you're offline, milk goes up by ₹5.60, the coffee sells out and only one paneer is left.
 
-   ```bash
-   npx expo start
-   ```
+Most cart demos either fail silently or re-price behind your back. Driftcart does three things instead:
 
-In the output, you'll find options to open the app in a
+1. **Queues the checkout offline** and sends it automatically when the network comes back.
+2. **Lets the server reject drift.** The client sends the prices the shopper *saw*. Any mismatch, up or down, is a conflict and never a silent re-price.
+3. **Shows a red/green review** ("While you were offline…") with every change explained, so the shopper confirms the new total before paying.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+It also handles the nastier case where **the order was saved but the reply was lost**. Every checkout intent carries one idempotency key. That key survives retries, offline queues and app restarts, so a retry gets the original order back instead of creating a duplicate. The Lab tab lets you cause that failure on purpose and watch the "duplicates prevented" counter go up.
 
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## What's novel here
 
-## Get a fresh project
+This isn't a tutorial cart. The interesting parts are the sync and consistency engineering, not the screens:
 
-When you're ready, run:
+- **Price-you-saw contract**: cart lines store `pricePaiseSeen`, and the server compares against it ([shop-core.ts](src/server/shop-core.ts)).
+- **Pure reconciliation**: `reconcile(cart, catalog)` is a deterministic function that produces the diff, the rebuilt cart and the totals. The UI and the tests both run on it ([reconcile.ts](src/sync/reconcile.ts)).
+- **Idempotent checkout** with exponential backoff and full jitter. Offline errors are *queued*, not retried ([retry.ts](src/sync/retry.ts), [cart-store.ts](src/store/cart-store.ts)).
+- **Cart lock when the outcome is unknown**: once a request with the key *might* have reached the server, the cart can't be edited. Editing would let a different cart reuse a key that may already be committed.
+- **Crash-safe**: an app killed mid-request rehydrates as "queued" with the same key.
+- **A chaos lab built into the app**: latency, dropped requests, lost replies, price and stock drift, and live server counters ([mock-server.ts](src/server/mock-server.ts)).
+
+## Run it
 
 ```bash
-npm run reset-project
+npm install
+npm start          # scan the QR with Expo Go on Android, or press w for web
+npm run check      # typecheck + lint + 28 tests
 ```
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+**60-second demo script**
 
-### Other setup steps
+1. Shop: add milk, coffee, 2× paneer and eggs. Open Cart.
+2. Flip **Lift mode** on and press **Queue order**. The status bar turns red with "1 order queued".
+3. Lab: press **Drift prices & stock**.
+4. Flip Lift mode off. The order auto-sends, the server rejects it, and the **"While you were offline…"** review appears.
+5. Press **Place order**. Done, once.
+6. Bonus: in Lab, set *Replies lost* to 100% and order again. The sync log shows a retry with the same key, and **duplicates prevented** goes to 1.
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+## Catalog and design
 
-## Learn more
+25 products across 5 categories with Bengaluru-style 2026 prices, MRP and discounts. Product photos are Creative Commons images bundled with the app, so the store still renders offline (credits: [assets/products/CREDITS.md](assets/products/CREDITS.md)). Product names are generic and the brand palette is my own; nothing is copied from a real quick-commerce app.
 
-To learn more about developing your project with Expo, look at the following resources:
+The bill (item total, delivery fee, free-delivery threshold, handling fee) comes from one pure function, `billFor`, used by both the cart screen and the server, so **the number shown is the number charged**.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Architecture
 
-## Join the community
+```
+src/
+  domain/      types (integer paise everywhere), money, bill, seed catalog, bundled product images
+  sync/        reconcile (pure), retry/backoff, offline-gated API, error types
+  server/      shop-core (pure, idempotent order logic) + MockShopServer (chaos knobs)
+  store/       Zustand vanilla store (testable without React) + persistence + hooks
+  components/  ProductCard, ProductImage, DriftReview, ConnectionBar, QtyStepper, SyncLog, UI primitives
+  app/         Expo Router tabs: Shop, Cart, Lab
+```
 
-Join our community of developers creating universal apps.
+The store depends only on a `ShopApi` interface, so swapping the in-app mock for a real HTTP backend is a one-line change in [store/app.ts](src/store/app.ts).
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Testing
+
+28 tests, all deterministic (injected clock, randomness and sleep, so there's no real waiting):
+
+- `reconcile`: price up/down, stock caps, sold out, delisted, combined drift, no input mutation
+- `shop-core`: commit, idempotent replay, conflict rules, conflicts not cached, validation
+- `retry`: backoff curve, jitter, give-up, no retry when offline
+- `cart-store`: offline queue → reconnect, drift → review → accept, **lost reply → no duplicate**, exhausted retries → queued with the same key and the cart locked
+- `billFor`: delivery and handling fees, free-delivery threshold
+- `<DriftReview />` with React Native Testing Library
+
+CI (GitHub Actions) runs typecheck, lint and tests, then bundles for web and Android.
+
+## Trade-offs and limitations
+
+- **The backend is in-process.** The mock server runs inside the app, so the demo works with zero infrastructure and zero cost. It resets on reload. The order logic is a pure module, so it can be moved behind an HTTP API without changes.
+- **Conflicts aren't cached by idempotency key, only successes are.** After a conflict the shopper sees a new cart, and that's a new intent with a new key. Stripe caches every response. I chose this because it keeps the "fixed cart" path simple.
+- **Last-write-wins on the client cart.** There's no multi-device cart merge (that would need CRDTs or server-side carts).
+- **No real payments.** Placing an order is where a payment intent would go, and it would reuse the same idempotency key.
+
+## Deploy (free)
+
+- **Web demo**: import the repo into Vercel (Hobby). `vercel.json` already sets the build command, output folder and SPA rewrites.
+- **Android APK**: `npm run build:apk` builds in Expo's cloud (free tier) and gives you a download link anyone can install.
+
+No API keys, no LLM, no paid services.
+
+## Roadmap
+
+- A small **Kotlin native module** (Expo Modules API) that reads connection type and metered status, so the app can delay big syncs on mobile data
+- A hosted API (shop-core behind a serverless function + Postgres) to replace the in-app mock
+- A Maestro end-to-end flow on Android
