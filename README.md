@@ -2,6 +2,8 @@
 
 **A quick-commerce cart that keeps working when your network doesn't, and never charges you a price you didn't see.**
 
+**▶ Live demo: https://driftcart-five.vercel.app** (works on phone and laptop, no install)
+
 React Native · Expo SDK 58 · TypeScript (strict) · Zustand · Expo Router · Jest + React Native Testing Library · GitHub Actions
 
 | Shop | Offline, order queued | Back online: what changed | Placed, once |
