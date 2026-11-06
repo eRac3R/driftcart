@@ -46,7 +46,7 @@ function ShopHeader({ query, onQuery }: { query: string; onQuery: (q: string) =>
         <TextInput
           value={query}
           onChangeText={onQuery}
-          placeholder="Search for atta, paneer, chips…"
+          placeholder="Search for milk, bread, chips…"
           placeholderTextColor={theme.textSecondary}
           style={[styles.searchInput, { color: theme.text }]}
           accessibilityLabel="Search products"

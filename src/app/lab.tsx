@@ -35,7 +35,7 @@ export default function LabScreen() {
   const { state, chaos, stats } = useServer();
   const cartIds = useCart(useShallow((s) => s.lines.map((l) => l.productId)));
   const refreshCatalog = useCart((s) => s.refreshCatalog);
-  const driftTargets = [...new Set([...cartIds, 'milk', 'coffee', 'paneer', 'bread'])];
+  const driftTargets = [...new Set([...cartIds, 'milk', 'coffee', 'cheese', 'bread'])];
 
   return (
     <Screen

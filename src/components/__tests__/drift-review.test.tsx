@@ -10,9 +10,9 @@ function drifted() {
   catalog.coffee.stock = 0;
   return reconcile(
     [
-      { productId: 'milk', name: 'Toned Milk 500 ml', unit: '1 pc', qty: 1, pricePaiseSeen: 2800 },
-      { productId: 'coffee', name: 'Filter Coffee 200 g', unit: '1 pc', qty: 1, pricePaiseSeen: 32000 },
-      { productId: 'eggs', name: 'Eggs, pack of 6', unit: '1 pc', qty: 1, pricePaiseSeen: 5400 },
+      { productId: 'milk', name: 'Whole Milk', unit: '1 pc', qty: 1, pricePaiseSeen: 2800 },
+      { productId: 'coffee', name: 'Roasted Coffee Beans', unit: '1 pc', qty: 1, pricePaiseSeen: 32000 },
+      { productId: 'eggs', name: 'Free-Range Eggs', unit: '1 pc', qty: 1, pricePaiseSeen: 5400 },
     ],
     catalog,
   );
@@ -46,7 +46,7 @@ describe('<DriftReview />', () => {
     const catalog = seedCatalog();
     catalog.coffee.stock = 0;
     const review = reconcile(
-      [{ productId: 'coffee', name: 'Filter Coffee 200 g', unit: '1 pc', qty: 2, pricePaiseSeen: 32000 }],
+      [{ productId: 'coffee', name: 'Roasted Coffee Beans', unit: '1 pc', qty: 2, pricePaiseSeen: 32000 }],
       catalog,
     );
     await render(<DriftReview review={review} onAccept={() => {}} onEdit={() => {}} />);

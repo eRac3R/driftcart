@@ -23,12 +23,12 @@ describe('placeOrder', () => {
   });
 
   it('replays the same result for a repeated idempotency key without touching stock', () => {
-    const req = order('k1', [{ productId: 'paneer', qty: 3, pricePaise: 9000 }]);
+    const req = order('k1', [{ productId: 'cheese', qty: 3, pricePaise: 9000 }]);
     const first = placeOrder(initialServerState(seedCatalog()), req);
     const second = placeOrder(first.state, req);
     expect(second.replayed).toBe(true);
     expect(second.result).toEqual(first.result);
-    expect(second.state.products.paneer.stock).toBe(5);
+    expect(second.state.products.cheese.stock).toBe(5);
     expect(second.state.nextOrderNo).toBe(1002);
   });
 

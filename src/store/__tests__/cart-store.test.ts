@@ -50,12 +50,12 @@ describe('cart store', () => {
     const { s, server } = await ready();
     s().add('milk');
     s().add('coffee');
-    s().add('paneer');
-    s().add('paneer');
+    s().add('cheese');
+    s().add('cheese');
     s().setSimulatedOffline(true);
     await s().checkout();
 
-    server.drift(['milk', 'coffee', 'paneer']);
+    server.drift(['milk', 'coffee', 'cheese']);
     s().setSimulatedOffline(false);
     await new Promise((r) => setTimeout(r, 0));
 

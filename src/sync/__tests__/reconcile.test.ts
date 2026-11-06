@@ -34,8 +34,8 @@ describe('reconcile', () => {
   });
 
   it('caps quantity to what is left in stock', () => {
-    catalog.paneer.stock = 1;
-    const r = reconcile([line('paneer', 3, 9000)], catalog);
+    catalog.cheese.stock = 1;
+    const r = reconcile([line('cheese', 3, 9000)], catalog);
     expect(r.diffs[0].reasons).toEqual(['qty_capped']);
     expect(r.lines[0].qty).toBe(1);
   });

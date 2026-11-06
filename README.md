@@ -24,7 +24,7 @@ The APK is a standalone release build (Expo EAS, `preview` profile). Android onl
 
 ## The problem
 
-You add milk, coffee and paneer, then walk into a lift and lose signal. You press "Place order" anyway. While you're offline, milk goes up by ₹5.60, the coffee sells out and only one paneer is left.
+You add milk, coffee and cottage cheese, then walk into a lift and lose signal. You press "Place order" anyway. While you're offline, milk goes up by ₹5.60, the coffee sells out and only one cottage cheese is left.
 
 Most cart demos either fail silently or re-price behind your back. Driftcart does three things instead:
 
@@ -55,7 +55,7 @@ npm run check      # typecheck + lint + 28 tests
 
 **60-second demo script**
 
-1. Shop: add milk, coffee, 2× paneer and eggs. Open Cart.
+1. Shop: add milk, coffee beans, 2× cottage cheese and eggs. Open Cart.
 2. Flip **Lift mode** on and press **Queue order**. The status bar turns red with "1 order queued".
 3. Lab: press **Drift prices & stock**.
 4. Flip Lift mode off. The order auto-sends, the server rejects it, and the **"While you were offline…"** review appears.

@@ -15,8 +15,8 @@ Product photos are Creative Commons or public-domain images found via [Openverse
 | milk.jpg | Yogurt - Cow milk | grongar | CC BY 2.0 | https://www.flickr.com/photos/70757891@N00/5529448988 |
 | bread.jpg | bread | How can I recycle this | CC BY 2.0 | https://www.flickr.com/photos/87481332@N00/157108084 |
 | eggs.jpg | Eggs in an egg carton | Ivan Radic | CC BY 2.0 | https://www.flickr.com/photos/26344495@N05/49829839696 |
-| paneer.jpg | Chili Paneer | PHOTO/arts Magazine | CC BY 2.0 | https://www.flickr.com/photos/92357396@N00/2414930442 |
-| curd.jpg | Plain Yogurt | Alabama Extension | CC0 | https://www.flickr.com/photos/184594136@N08/50088084781 |
+| cheese.jpg | Chili Paneer | PHOTO/arts Magazine | CC BY 2.0 | https://www.flickr.com/photos/92357396@N00/2414930442 |
+| yogurt.jpg | Plain Yogurt | Alabama Extension | CC0 | https://www.flickr.com/photos/184594136@N08/50088084781 |
 | butter.jpg | fork in butter | Steve A Johnson | CC BY 2.0 | https://www.flickr.com/photos/14529257@N03/5069610049 |
 | chips.jpg | Plaintain, Yuca and Sweet Potato Chips-2 | Dana Moos | CC BY 2.0 | https://www.flickr.com/photos/32870650@N08/4043682645 |
 | cookies.jpg | Browned butter chocolate chip cookies | grongar | CC BY 2.0 | https://www.flickr.com/photos/70757891@N00/7133349441 |
@@ -27,5 +27,5 @@ Product photos are Creative Commons or public-domain images found via [Openverse
 | tea.jpg | Masala Chai tea from Samovar | karaemurphy | CC BY 2.0 | https://www.flickr.com/photos/21222022@N03/4700888947 |
 | coffee.jpg | Coffee Beans | ReneS | CC BY 2.0 | https://www.flickr.com/photos/63504485@N00/30000412 |
 | rice.jpg | Basmati Rice | cookbookman17 | CC BY 2.0 | https://www.flickr.com/photos/58545726@N02/6121427720 |
-| atta.jpg | wheat-flour | Phú Thịnh Co | CC BY-SA 2.0 | https://www.flickr.com/photos/81249109@N04/7591964516 |
-| dal.jpg | Red Lentils | Dani and Rob | CC BY 2.0 | https://www.flickr.com/photos/49823770@N00/2889139605 |
+| flour.jpg | wheat-flour | Phú Thịnh Co | CC BY-SA 2.0 | https://www.flickr.com/photos/81249109@N04/7591964516 |
+| lentils.jpg | Red Lentils | Dani and Rob | CC BY 2.0 | https://www.flickr.com/photos/49823770@N00/2889139605 |
