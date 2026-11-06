@@ -2,13 +2,25 @@
 
 **A quick-commerce cart that keeps working when your network doesn't, and never charges you a price you didn't see.**
 
-**▶ Live demo: https://driftcart-five.vercel.app** (works on phone and laptop, no install)
-
 React Native · Expo SDK 58 · TypeScript (strict) · Zustand · Expo Router · Jest + React Native Testing Library · GitHub Actions
 
-| Shop | Offline, order queued | Back online: what changed | Placed, once |
-|---|---|---|---|
-| ![](docs/0-home.png) | ![](docs/2-queued.png) | ![](docs/3-review.png) | ![](docs/4-placed.png) |
+## Try it
+
+| 📱 Android app | 🌐 Web (any phone or laptop) |
+|---|---|
+| <img src="docs/apk-qr.png" width="160" alt="QR code to download the Driftcart APK"><br>**[Download the APK](https://expo.dev/artifacts/eas/QQuUywqx3d038Qeewh1eKWqg0QYqFSQrstYyyeFx3YI.apk)**<br>Scan with your phone camera, download, then tap *Install* (allow "install from this source" once). | **[driftcart-five.vercel.app](https://driftcart-five.vercel.app)**<br>Nothing to install. Same app, built from the same code. |
+
+The APK is a standalone release build (Expo EAS, `preview` profile). Android only; iPhone users can use the web link.
+
+## Screenshots
+
+| Shop | Offline, order queued | Back online: what changed |
+|---|---|---|
+| <img src="docs/0-home.png" width="250"> | <img src="docs/2-queued.png" width="250"> | <img src="docs/3-review.png" width="250"> |
+
+| Placed, exactly once | Server lab (chaos controls) |
+|---|---|
+| <img src="docs/4-placed.png" width="250"> | <img src="docs/5-lab.png" width="250"> |
 
 ## The problem
 
@@ -81,7 +93,7 @@ The store depends only on a `ShopApi` interface, so swapping the in-app mock for
 - `billFor`: delivery and handling fees, free-delivery threshold
 - `<DriftReview />` with React Native Testing Library
 
-CI (GitHub Actions) runs typecheck, lint and tests, then bundles for web and Android.
+CI (GitHub Actions) runs typecheck, lint and tests, then bundles for web and Android. A step-by-step guide to how it works is in [docs/LEARN-GITHUB-ACTIONS.md](docs/LEARN-GITHUB-ACTIONS.md).
 
 ## Trade-offs and limitations
 
